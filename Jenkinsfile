@@ -7,6 +7,21 @@ properties([
    ])
 ])
 
+stage('checkout'){
+ checkout([$class: 'GitSCM',
+          branches: [[name: '*/master']],
+          doGenerateSubmoduleConfigurations: false,
+          extensions: [[$class: 'SubmoduleOption',
+                        disableSubmodules: false,
+                        parentCredentials: false,
+                        recursiveSubmodules: true,
+                        reference: '',
+                        trackingSubmodules: false]],
+          submoduleCfg: [],
+          userRemoteConfigs: [[ url: 'git@github.com:cristiancvanega/kops-terraform.git'
+    ]]])
+}
+
 stage('Print DEPLOY_TYPE selection'){
   echo "Will deploy to ${params.DEPLOY_TYPE}"
 }
